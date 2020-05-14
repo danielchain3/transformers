@@ -255,11 +255,10 @@ class StanceProcessor(DataProcessor):
         """Gets a collection of `InputExample`s for the train set."""
         # load English news stance data from Fake News Challenge (the first 70% rows)
         # method 1: manually merge train_bodies and train_stances here
-        url = 'https://raw.githubusercontent.com/kz882/fnc-1/master/train_bodies.csv'
-        train_bodies = pd.read_csv(url)
+        logger.info("LOOKING AT {} train".format(data_dir))
+        train_bodies = pd.read_csv(os.path.join(data_dir, "train_body.csv"))
 
-        url = 'https://raw.githubusercontent.com/kz882/fnc-1/master/train_stances.random.csv'
-        train_stances = pd.read_csv(url)
+        train_stances = pd.read_csv(os.path.join(data_dir, "train_stances.csv"))
 
         train = train_stances.merge(train_bodies, left_on='Body ID', right_on='Body ID')
 
@@ -281,11 +280,10 @@ class StanceProcessor(DataProcessor):
         """Gets a collection of `InputExample`s for the dev set."""
         # load English news stance data from Fake News Challenge (the last 30% rows)
         # method 1: manually merge train_bodies and train_stances here
-        url = 'https://raw.githubusercontent.com/kz882/fnc-1/master/train_bodies.csv'
-        train_bodies = pd.read_csv(url)
+        logger.info("LOOKING AT {} dev".format(data_dir))
+        train_bodies = pd.read_csv(os.path.join(data_dir, "train_body.csv"))
 
-        url = 'https://raw.githubusercontent.com/kz882/fnc-1/master/train_stances.random.csv'
-        train_stances = pd.read_csv(url)
+        train_stances = pd.read_csv(os.path.join(data_dir, "train_stances.csv"))
 
         train = train_stances.merge(train_bodies, left_on='Body ID', right_on='Body ID')
 
@@ -304,10 +302,8 @@ class StanceProcessor(DataProcessor):
 
     def get_test_examples(self, data_dir):
         """Gets a collection of `InputExample`s for the test set."""
-        # load 
-        url = requests.get('https://doc-0g-78-docs.googleusercontent.com/docs/securesc/ha0ro937gcuc7l7deffksulhg5h7mbp1/5otus4mg51j69f99n47jgs0t374r46u3/1560607200000/09837260612050622056/*/0B6GhBwm5vaB2ekdlZW5WZnppb28?e=download')
-        csv_raw = StringIO(url.text)
-        test = pd.read_csv(csv_raw)
+        logger.info("LOOKING AT {} dev".format(data_dir))
+        test = pd.read_csv(os.path.join(data_dir, "test.csv"))
 
         test_examples = []
         for id, row in test:
